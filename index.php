@@ -11,7 +11,7 @@ $check_login = function () {
 
 run([
 	['GET', '^/$', function() {
-		$items = Service()['db']->queryAll('SELECT * from item join user on user.id=item.user_id limit 100');
+		$items = Service()['db']->queryAll('SELECT name as username, `text`, item.create_time from item join user on user.id=item.user_id limit 100');
 		render(VIEW_ROOT.'/index.html', compact('items'), VIEW_ROOT.'/layout.html');
 	}],
 	['GET', '^/t/(\d+)$', function ($params) {

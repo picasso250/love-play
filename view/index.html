@@ -1,0 +1,12 @@
+<ul>
+	<?php foreach ($items as $item): ?>
+	<li>
+		<h3><?= $item['title'] ?></h3>
+		<div>
+			<div><?= htmlspecialchars($item['username']) ?></div>
+			<div><?= $item['create_time'] ?></div>
+		</div>
+		<div><?= $item['text'] ?></div>
+	</li>
+	<?php endforeach ?>
+</ul>
