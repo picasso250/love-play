@@ -1,17 +1,17 @@
-<ul>
+<ul id="ItemList">
 <?php foreach ($items as $item): ?>
-	<li>
-		<a href="/t/<?= $item['id'] ?>"><?= htmlspecialchars($item['title']) ?></a>
-		<div>
-			<div><?= htmlspecialchars($item['username']) ?></div>
-			<div><?= $item['create_time'] ?></div>
+	<li class="item">
+		<div class="item-info">
+			<div class="username"><?= htmlspecialchars($item['username']) ?></div>
+			<div class="time"><?= $item['create_time'] ?></div>
 		</div>
-		<div><?= $item['text'] ?></div>
+		<a href="/t/<?= $item['id'] ?>"><?= htmlspecialchars($item['title']) ?></a>
+		<div class="content"><?= $item['text'] ?></div>
 	</li>
 <?php endforeach ?>
 </ul>
 <form id="PostForm" method="post" action="/t/">
-	<div>title:<br>
+	<div>标题:<br>
 		<input name="title" >
 	</div>
 	<div><textarea name="text"></textarea></div>
