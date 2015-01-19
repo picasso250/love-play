@@ -95,6 +95,10 @@ run([
 		user_id($user['id']);
 		redirect('/');
 	}],
+	['GET', '%^/logout$%', function () {
+		user_id(0);
+		redirect('/');
+ 	}],
 ]);
 
 function user_id($user_id = null)
