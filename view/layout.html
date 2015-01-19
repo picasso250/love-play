@@ -7,6 +7,17 @@
 	<script type="text/javascript" src="http://malsup.github.io/jquery.form.js"></script>
 </head>
 <body>
+	<header>
+		<h1>爱演戏讨论组</h1>
+		<div>
+		<?php if (user_id()): ?>
+			<? _g('username') ?>
+			<a href="/logout">退出</a>
+		<?php else: ?>
+			<a href="/login">登录</a>
+		<?php endif; ?>
+		</div>
+	</header>
 <?php include $_inner_ ?>
 </body>
 </html>
