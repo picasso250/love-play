@@ -1,7 +1,7 @@
 <ul>
 	<?php foreach ($items as $item): ?>
 	<li>
-		<h3><?= $item['title'] ?></h3>
+		<h3><?= htmlspecialchars($item['title']) ?></h3>
 		<div>
 			<div><?= htmlspecialchars($item['username']) ?></div>
 			<div><?= $item['create_time'] ?></div>

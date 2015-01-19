@@ -1,0 +1,14 @@
+<h2><?= htmlspecialchars($item['title']) ?></h2>
+<div>
+	<div><?= htmlspecialchars($item['username']) ?></div>
+	<div><?= $item['create_time'] ?></div>
+</div>
+<div><?= $item['text'] ?></div>
+<ul>
+	<?php foreach ($comments as $comment): ?>
+	<li>
+		<div><?= $comment['username'] ?></div>
+		<div><?= $comment['text'] ?></div>
+	</li>
+	<?php endforeach ?>
+</ul>
