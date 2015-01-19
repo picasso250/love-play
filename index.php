@@ -74,7 +74,10 @@ run([
 			exit;
 		}
 		$data = compact('name', 'password');
-		$id = $db->insert('user', $data);
+		$id = $db->insert('user', [
+			'name' => $name,
+			'password' => md5($password),
+		]);
 		echo_json(['user_id' => $id], 'user created');
 	}],
 	['GET', '%^/login$%', function () {
