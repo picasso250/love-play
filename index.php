@@ -4,6 +4,7 @@ define('VIEW_ROOT', __DIR__.'/view');
 
 require __DIR__.'/php-tiny-frame/autoload.php';
 
+
 $check_login = function () {
 	if (!user_id()) {
 		echo_json(1, 'user not login');
@@ -11,6 +12,7 @@ $check_login = function () {
 	}
 };
 
+session_start();
 Service('db', new DB('mysql:dbname=love_play', 'root', 'root'));
 
 run([
@@ -94,3 +96,13 @@ run([
 		redirect('/');
 	}],
 ]);
+
+function user_id($user_id = null)
+{
+	$key = 'xxuserid';
+	if (func_num_args() === 0) {
+		return isset($_SESSION[$key]) ? $_SESSION[$key] : 0;
+	} else {
+		$_SESSION[$key] = $user_id;
+	}
+}
