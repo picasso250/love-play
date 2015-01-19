@@ -2,6 +2,8 @@
 
 define('VIEW_ROOT', __DIR__.'/view');
 
+require __DIR__.'/php-tiny-frame/autoload.php';
+
 $check_login = function () {
 	if (!user_id()) {
 		echo_json(1, 'user not login');
@@ -9,19 +11,21 @@ $check_login = function () {
 	}
 };
 
+Service('db', new DB('mysql:dbname=love_play', 'root', 'root'));
+
 run([
-	['GET', '^/$', function() {
-		$items = Service()['db']->queryAll('SELECT name as username, `text`, item.create_time from item join user on user.id=item.user_id limit 100');
+	['GET', '%^/$%', function() {
+		$items = Service('db')->queryAll('SELECT name as username, `text`, item.create_time from item join user on user.id=item.user_id limit 100');
 		render(VIEW_ROOT.'/index.html', compact('items'), VIEW_ROOT.'/layout.html');
 	}],
-	['GET', '^/t/(\d+)$', function ($params) {
+	['GET', '%^/t/(\d+)$%', function ($params) {
 		$id = $params[1];
-		$db = Service()['db'];
+		$db = Service('db');
 		$item = $db->queryRow('SELECT * from item join user on user.id=item.user_id limit 1');
 		$comments = $db->queryAll('SELECT * from comment where item_id=? limit 100', [$id]);
 		render(VIEW_ROOT.'/item.html', compact('item', 'comment'), VIEW_ROOT.'/layout.html');
 	}],
-	['POST', '^/t/$', function () {
+	['POST', '%^/t/$%', function () {
 		$user_id = user_id();
 		$title = _post('title');
 		if (empty($title)) {
@@ -30,11 +34,11 @@ run([
 		}
 		$text = _post('text');
 		$data = compact('user_id', 'title', 'text');
-		$db = Service()['db'];
+		$db = Service('db');
 		$id = $db->insert('item', $data);
 		echo_json(['id' => $id], 'item created');
 	}, $check_login],
-	['POST', '^/t/comment/$', function () {
+	['POST', '%^/t/comment/$%', function () {
 		$user_id = user_id();
 		$item_id = _post('item_id');
 		if (empty($item_id)) {
@@ -47,11 +51,11 @@ run([
 			exit;
 		}
 		$data = compact('user_id', 'title', 'text');
-		$db = Service()['db'];
+		$db = Service('db');
 		$id = $db->insert('comment', $data);
 		echo_json(['id' => $id], 'comment created');
 	}, $check_login],
-	['POST', '^/user/$', function () {
+	['POST', '%^/user/$%', function () {
 		$name = _post('name');
 		if (empty($name)) {
 			echo_json(2, 'name empty');
@@ -63,14 +67,14 @@ run([
 			exit;
 		}
 		$data = compact('name', 'password');
-		$db = Service()['db'];
+		$db = Service('db');
 		$id = $db->insert('user', $data);
 		echo_json(['id' => $id], 'user created');
 	}],
-	['GET', '^/login$', function () {
+	['GET', '%^/login$%', function () {
 		render(VIEW_ROOT.'/login.html', VIEW_ROOT.'/layout.html');
  	}],
-	['POST', '^/login$', function () {
+	['POST', '%^/login$%', function () {
 		$name = _post('name');
 		if (empty($name)) {
 			echo_json(2, 'name empty');
@@ -81,7 +85,7 @@ run([
 			echo_json(2, 'password empty');
 			exit;
 		}
-		$db = Service()['db'];
+		$db = Service('db');
 		$user = $db->queryRow('SELECT * from user where name=? and password=? limit 1', [$name, md5($password)]);
 		if (empty($user)) {
 			echo_json(3, 'password not correct');
