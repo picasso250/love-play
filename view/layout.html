@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta>
-	<title>x</title>
-	<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/2.0.3/jquery-2.0.3.js"></script>
-	<script type="text/javascript" src="http://malsup.github.io/jquery.form.js"></script>
+	<meta charset="utf-8">
+	<title>爱演戏讨论组</title>
+	<meta name="viewport" content="width=device-width; initial-scale=1;" />
+	<link rel="stylesheet" type="text/css" href="/view/main.css">
+	<script type="text/javascript" src="/view/jquery-2.0.3.js"></script>
 </head>
 <body>
 	<header>
-		<h1>爱演戏讨论组</h1>
-		<div>
+		<div id="TopControlBar">
 		<?php if (user_id()): ?>
 			<? _g('username') ?>
 			<a href="/logout">退出</a>
@@ -17,6 +17,7 @@
 			<a href="/login">登录</a>
 		<?php endif; ?>
 		</div>
+		<h1>爱演戏讨论组</h1>
 	</header>
 <?php include $_inner_ ?>
 </body>
