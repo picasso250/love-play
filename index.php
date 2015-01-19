@@ -63,18 +63,22 @@ run([
 			echo_json(2, 'name empty');
 			exit;
 		}
+		$db = Service('db');
+		if ($db->queryRow('SELECT `id` FROM `user` WHERE `name`=? LIMIT 1', [$name])) {
+			echo_json(4, 'user exists');
+			exit;
+		}
 		$password = _post('password');
 		if (empty($password)) {
 			echo_json(2, 'password empty');
 			exit;
 		}
 		$data = compact('name', 'password');
-		$db = Service('db');
 		$id = $db->insert('user', $data);
-		echo_json(['id' => $id], 'user created');
+		echo_json(['user_id' => $id], 'user created');
 	}],
 	['GET', '%^/login$%', function () {
-		render(VIEW_ROOT.'/login.html', VIEW_ROOT.'/layout.html');
+		render(VIEW_ROOT.'/login.html', [], VIEW_ROOT.'/layout.html');
  	}],
 	['POST', '%^/login$%', function () {
 		$name = _post('name');
@@ -91,9 +95,10 @@ run([
 		$user = $db->queryRow('SELECT * from user where name=? and password=? limit 1', [$name, md5($password)]);
 		if (empty($user)) {
 			echo_json(3, 'password not correct');
+			exit;
 		}
 		user_id($user['id']);
-		redirect('/');
+		echo_json($user);
 	}],
 	['GET', '%^/logout$%', function () {
 		user_id(0);
