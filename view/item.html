@@ -12,3 +12,20 @@
 	</li>
 <?php endforeach ?>
 </ul>
+
+<form id="ReplyForm">
+	<div><textarea name="text"></textarea></div>
+	<input type="submit" value="回复">
+</form>
+<script type="text/javascript">
+$('#ReplyForm').on('submit', function (event) {
+	$.post("/t/<?= $item['id'] ?>/comment/", $(this).serialize(), function (ret) {
+		if (ret.code === 0) {
+			location.href = "/t/<?= $item['id'] ?>";
+		} else {
+			alert(ret.message);
+		}
+	}, 'json');
+	event.preventDefault();
+});
+</script>

@@ -27,7 +27,8 @@ run([
 		$db = Service('db');
 		$fields = 'item.id, name as username, title, `text`, item.create_time';
 		$item = $db->queryRow("SELECT $fields from item join user on user.id=item.user_id limit 1");
-		$comments = $db->queryAll('SELECT * from comment where item_id=? limit 100', [$id]);
+		$sql = 'SELECT user.name as username, c.* from comment c join user on user.id=c.user_id where item_id=? limit 100';
+		$comments = $db->queryAll($sql, [$id]);
 		render(VIEW_ROOT.'/item.html', compact('item', 'comments'), VIEW_ROOT.'/layout.html');
 	}],
 	['POST', '%^/t/$%', function () {
@@ -43,19 +44,15 @@ run([
 		$id = $db->insert('item', $data);
 		echo_json(['id' => $id], 'item created');
 	}, $check_login],
-	['POST', '%^/t/comment/$%', function () {
+	['POST', '%^/t/(\d+)/comment/$%', function ($params) {
 		$user_id = user_id();
-		$item_id = _post('item_id');
-		if (empty($item_id)) {
-			echo_json(2, 'item_id empty');
-			exit;
-		}
+		$item_id = $params[1];
 		$text = _post('text');
 		if (empty($text)) {
 			echo_json(2, 'text empty');
 			exit;
 		}
-		$data = compact('user_id', 'title', 'text');
+		$data = compact('user_id', 'item_id', 'title', 'text');
 		$db = Service('db');
 		$id = $db->insert('comment', $data);
 		echo_json(['id' => $id], 'comment created');
