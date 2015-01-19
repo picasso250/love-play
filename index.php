@@ -17,7 +17,9 @@ Service('db', new DB('mysql:dbname=love_play', 'root', 'root'));
 
 run([
 	['GET', '%^/$%', function() {
-		$items = Service('db')->queryAll('SELECT name as username, `text`, item.create_time from item join user on user.id=item.user_id limit 100');
+		$fields = 'name as username, title, `text`, item.create_time';
+		$sql = "SELECT $fields from item join user on user.id=item.user_id order by item.id desc limit 100";
+		$items = Service('db')->queryAll($sql);
 		render(VIEW_ROOT.'/index.html', compact('items'), VIEW_ROOT.'/layout.html');
 	}],
 	['GET', '%^/t/(\d+)$%', function ($params) {
