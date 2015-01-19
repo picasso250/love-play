@@ -11,17 +11,23 @@
 <?php endforeach ?>
 </ul>
 <form id="PostForm" method="post" action="/t/">
-	<div>title:
-	<input name="title" >
+	<div>title:<br>
+		<input name="title" >
 	</div>
 	<div><textarea name="text"></textarea></div>
 	<input type="submit" value="发贴">
 </form>
 <script type="text/javascript">
 	$(function () {
-		$('#PostForm').ajaxForm(function(ret) {
-			console.log(ret);
-            // alert("Thank you for your comment!");
+		$('#PostForm').on('submit', function (event) {
+			$.post('/t/', $(this).serialize(), function (ret) {
+				if (ret.code === 0) {
+					location.href = '/';
+				} else {
+					alert(ret.message);
+				}
+			}, 'json');
+			event.preventDefault();
         });
 	});
 </script>
