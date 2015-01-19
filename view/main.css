@@ -1,0 +1,40 @@
+h1 {
+	font-size: large;
+}
+#TopControlBar {
+	float: right;
+}
+.item {
+	list-style-type: none;
+	background-color: Lavender;
+	margin-top: 0.4em;
+	margin-bottom: 0.4em;
+	border-radius: 6px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+#ItemList {
+	padding: 0;
+}
+.item-info {
+	float: right;
+}
+.time {
+	font-size: small;
+	color: grey;
+}
+.content {
+	clear: both;
+	font-size: small;
+}
+
+form {
+	background-color: Lavender;
+	border-radius: 6px;
+	padding: 5px;
+}
+form textarea {
+	width: 90%;
+}
