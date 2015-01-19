@@ -9,7 +9,11 @@
 <script type="text/javascript">
 $('#LoginForm').on('submit', function (event) {
 	$.post('/login', $(this).serialize(), function (ret) {
-		console.log(ret);
+		if (ret.code === 0) {
+			location.href = '/';
+		} else {
+			alert(ret.message);
+		}
 	}, 'json');
 	event.preventDefault();
 });
