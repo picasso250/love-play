@@ -17,7 +17,7 @@ Service('db', new DB('mysql:dbname=love_play', 'root', 'root'));
 
 run([
 	['GET', '%^/$%', function() {
-		$fields = 'name as username, title, `text`, item.create_time';
+		$fields = 'item.id, name as username, title, `text`, item.create_time';
 		$sql = "SELECT $fields from item join user on user.id=item.user_id order by item.id desc limit 100";
 		$items = Service('db')->queryAll($sql);
 		render(VIEW_ROOT.'/index.html', compact('items'), VIEW_ROOT.'/layout.html');
@@ -25,9 +25,10 @@ run([
 	['GET', '%^/t/(\d+)$%', function ($params) {
 		$id = $params[1];
 		$db = Service('db');
-		$item = $db->queryRow('SELECT * from item join user on user.id=item.user_id limit 1');
+		$fields = 'item.id, name as username, title, `text`, item.create_time';
+		$item = $db->queryRow("SELECT $fields from item join user on user.id=item.user_id limit 1");
 		$comments = $db->queryAll('SELECT * from comment where item_id=? limit 100', [$id]);
-		render(VIEW_ROOT.'/item.html', compact('item', 'comment'), VIEW_ROOT.'/layout.html');
+		render(VIEW_ROOT.'/item.html', compact('item', 'comments'), VIEW_ROOT.'/layout.html');
 	}],
 	['POST', '%^/t/$%', function () {
 		$user_id = user_id();
