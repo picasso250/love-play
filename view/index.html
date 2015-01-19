@@ -1,5 +1,5 @@
 <ul>
-	<?php foreach ($items as $item): ?>
+<?php foreach ($items as $item): ?>
 	<li>
 		<h3><?= htmlspecialchars($item['title']) ?></h3>
 		<div>
@@ -8,7 +8,7 @@
 		</div>
 		<div><?= $item['text'] ?></div>
 	</li>
-	<?php endforeach ?>
+<?php endforeach ?>
 </ul>
 <form id="PostForm" method="post" action="/t/">
 	<div>title:
