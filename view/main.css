@@ -1,3 +1,9 @@
+@media screen and (min-width: 900px) {
+	body {
+		margin: auto;
+		width: 598px;
+	}
+}
 h1 {
 	font-size: large;
 }
@@ -9,7 +15,7 @@ h1 {
 	background-color: Lavender;
 	margin-top: 0.4em;
 	margin-bottom: 0.4em;
-	border-radius: 6px;
+	border-radius: 3px;
 	padding-left: 5px;
 	padding-right: 5px;
 	padding-top: 4px;
